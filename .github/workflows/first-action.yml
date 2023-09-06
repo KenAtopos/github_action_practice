@@ -1,0 +1,12 @@
+name: First Workflow
+# when the workflow should be executed
+on: workflow_dispatch
+# make sure I can manually trigger the workflow -- workflow_dispatch
+jobs: 
+  first-job: 
+    runs-on: macos-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hello world"
+      - name: Print goodbye
+        run: echo "Goodbye"
