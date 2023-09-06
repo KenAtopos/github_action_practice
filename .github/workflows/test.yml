@@ -9,6 +9,6 @@ jobs:
       - name: Change directory to second_action
         run: cd second_action
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run tests
         run: npm test
