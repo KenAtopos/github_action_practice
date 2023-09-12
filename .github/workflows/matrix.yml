@@ -2,11 +2,19 @@ name: Matrix Demo
 on: push
 jobs:
   build:
+    continue-on-error: true
     strategy:
+      # only matrix needs to add strategy
       matrix:
         # matrix allows you to run the multiple jobs simultaneously with different configurations
         node-version: [12, 14, 16]
         operating-system: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 18
+            operationg-system: ubuntu-latest
+        exclude:
+          - node-version: 12
+            operationg-system: windows-latest
     runs-on: ${{ matrix.operating-system }}
     steps:
       - name: Get code
