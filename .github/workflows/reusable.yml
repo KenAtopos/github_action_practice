@@ -1,8 +1,35 @@
 name: Reusable Demo
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: The name of the deployable artifact files
+        type: string
+        required: false
+        default: dist
+    outputs:
+      result:
+        description: The result of the deployment operation
+        value: ${{ jobs.deploy.outputs.outcome }}
+    secrets:
+      some-secret: # some-secret is the identifier here
+        required: false
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.set-result.outputs.step-result }}
+      # define output variables that can be used to share data or results produced by that job with other jobs in the same workflow.
+      # outcome(customed name) is defined first and declared later
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: list files
+        run: ls
       - name: Output information
         run: echo "Deploying & uploading..."
+      - name: Set result output
+        id: set-result
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
